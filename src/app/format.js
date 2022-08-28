@@ -17,3 +17,7 @@ export const formatStatus = (status) => {
       return "Refused"
   }
 }
+
+export const formatUnix = (dateStr) => {
+  return Math.round(new Date(dateStr).getTime()/1000)
+}
