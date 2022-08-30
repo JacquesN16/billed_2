@@ -145,18 +145,16 @@ describe("Given I am connected as an employee", () => {
             });
 
             window.onNavigate(ROUTES_PATH.Bills)
-            
             document.body.innerHTML = BillsUI({error: 'Error 404'})
             await new Promise(process.nextTick)
             await waitFor(() => screen.getByText('Error 404'))
-            const message = await screen.getByText('Error 404')
-            const counter_part = await screen.getByTestId('error-message')
+            const message = screen.getByText('Error 404')
 
             expect(message).toBeTruthy()
-            expect(message).toEqual(counter_part)
+            
 
         });
-
+        
         it('Then the page should fetch and fail with 500 error', async () => {
             mockStore.bills.mockImplementationOnce(() => {
                 return {
@@ -168,9 +166,9 @@ describe("Given I am connected as an employee", () => {
 
             window.onNavigate(ROUTES_PATH.Bills)
             document.body.innerHTML = BillsUI({error: 'Error 500'})
-
+            await new Promise(process.nextTick)
             await waitFor(() => screen.getByText('Error 500'))
-            const message = await screen.getByText('Error 500')
+            const message = screen.getByText('Error 500')
             expect(message).toBeTruthy()
         });
     });

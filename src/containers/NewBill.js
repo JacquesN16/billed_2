@@ -15,18 +15,27 @@ export default class NewBill {
     this.billId = null
     new Logout({ document, localStorage, onNavigate })
   }
+
+  isFileTypeValid = (fileExtension) =>{
+    const availableExtensions = ['jpg', 'jpeg', 'png']
+    if (!availableExtensions.includes(fileExtension)) return false
+    return true
+  }
+ 
   handleChangeFile = e => {
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const isFileTypeValid = file.name.endsWith(' .jpg') || file.name.endsWith('.jpeg') || file.name.endsWith('.png')
     
-    if(!isFileTypeValid){
-      window.alert('Type de document non supporté ! Uniquement les formats jpg/jpeg et png sont autorisés!')
-      return
-    }
-
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
+    const fileExtension = fileName.split('.').pop().toLowerCase()
+    
+    if(!this.isFileTypeValid(fileExtension)){
+      window.alert('Type de document non supporté ! Uniquement les formats jpg/jpeg et png sont autorisés!')
+      return null
+    }
+
+  
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
     formData.append('file', file)
