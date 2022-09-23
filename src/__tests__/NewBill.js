@@ -194,42 +194,4 @@
    })
  })
 
- describe('When an error occurs on API', () => {
-
-  beforeEach(() => {
-      jest.spyOn(mockStore, "bills")
-      Object.defineProperty(window, 'localStorage', {value: localStorageMock})
-
-      window.localStorage.setItem('user', JSON.stringify({
-          type: 'Employee', 
-          email: "a@a"
-      }))
-      const root = document.createElement("div")
-      root.setAttribute("id", "root")
-      document.body.innerHTML = ''
-      document.body.append(root)
-      router()
-  })
-
-  it('Then the page should fetch and fail with 404 error', async () => {
-
-    mockStore.bills.mockImplementationOnce(() => {
-        return {
-            list: () => {
-                return Promise.reject(new Error('Error 404'));
-            },
-        };
-    });
-
-    window.onNavigate(ROUTES_PATH.NewBill)
-    document.body.innerHTML = NewBillUI({error: 'Error 404'})
-    // await new Promise(process.nextTick)
-    await waitFor(() => screen.getByText('Error 404'))
-    const message = screen.getByText('Error 404')
-
-    expect(message).toBeTruthy()
-    
-
-});
-
-})
+ 
